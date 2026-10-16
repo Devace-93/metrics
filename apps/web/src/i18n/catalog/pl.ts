@@ -380,6 +380,7 @@ const pl: PartialCatalog = {
   "dim.utm_medium": "Media UTM",
   "dim.utm_campaign": "Kampanie UTM",
   "dim.name": "Własne zdarzenia",
+  "dim.ip": "Adresy IP",
   "device.desktop": "Komputer",
   "device.mobile": "Telefon",
   "device.tablet": "Tablet",
@@ -520,6 +521,8 @@ const pl: PartialCatalog = {
   "psettings.collectEnabled": "Zbieraj hity",
   "psettings.excludeBots": "Ignoruj boty i przeglądarki headless",
   "psettings.featureOff": "wyłączone globalnie",
+  "psettings.storeIp": "Zapisuj adresy IP odwiedzających",
+  "psettings.storeIpHint": "Wyłączone: przechowywany jest tylko dzienny hash i wyprowadzona lokalizacja. Włączone: prawdziwy adres jest zapisywany z każdym trafieniem i widoczny w dzienniku zdarzeń oraz jako zestawienie.",
   "psettings.geoOff":
     "Wyszukiwanie lokalizacji jest obecnie wyłączone globalnie; nowe hity są zapisywane bez kraju i miasta.",
   "psettings.allowedOrigins": "Dozwolone hosty",

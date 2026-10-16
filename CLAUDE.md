@@ -7,5 +7,5 @@
 - Build mode: Claude writes the whole codebase unless Enrique says "modo aprender".
 - Visual PRs carry a demo GIF + webm in the description (`docs/pr/`).
 - Brand colour: Tailwind **cyan** (3m4 blue, exp violet, retro emerald, bubbles orange).
-- Never store raw IPs or user agents; hashes + derived fields only (house rule across the 3m4 apps).
+- Never store raw user agents; raw IPs only behind the per-project `store_ip` switch (Enrique asked for IPs on 2026-10-15), hashes + derived fields otherwise.
 - e2e and smoke hits must send a real browser UA: headless / tool UAs are filtered as bots on purpose.

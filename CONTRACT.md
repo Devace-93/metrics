@@ -18,7 +18,8 @@ Vocabulary:
   Over several days, "visitors" is the sum of daily uniques.
 - **dimension** = a column you can break down or filter by: `path`, `hostname`,
   `referrer`, `country`, `region`, `city`, `device`, `browser`, `os`, `lang`,
-  `utm_source`, `utm_medium`, `utm_campaign`, `name`.
+  `utm_source`, `utm_medium`, `utm_campaign`, `name`, `ip` (values only when
+  the project stores addresses).
 - **features** = metrics' *own* switches (`packages/shared/feature_flags.json`,
   resolved from PostHog, exposed as `GET /api/features` and `me.features`).
 
@@ -88,9 +89,11 @@ Plan limits come from `packages/shared/plan_limits.json`. While the
 
 ## Privacy
 
-- Raw IPs are never stored. `ip_hash = sha256(ip + ":" + daily_salt)` where
-  `daily_salt = sha256(IP_HASH_SECRET + ":" + YYYY-MM-DD)`; used for rate
-  limits only.
+- Raw IPs are not stored by default. `ip_hash = sha256(ip + ":" + daily_salt)`
+  where `daily_salt = sha256(IP_HASH_SECRET + ":" + YYYY-MM-DD)`; used for
+  rate limits only. A project with `store_ip: true` keeps the raw address in
+  `Event.ip` (≤ 45 chars, IPv6 included); it then shows in the event log and
+  as the `ip` dimension.
 - `visitor_hash = sha256(daily_salt + ":" + project_id + ":" + ip + ":" + user_agent)`.
   No cookie, no localStorage, no cross-day or cross-site identity. The raw
   user agent is parsed into `device` / `browser` / `os` and discarded.
@@ -125,13 +128,13 @@ Request bodies are capped at 64 KB (413).
 ### Projects
 
 - `GET    /projects?q=` → `{items:[Project], total}` — `projects:read`. Newest first; `q` searches name, key and URL.
-- `POST   /projects` `{name, key?, description?, url?, timezone?, allowed_origins?}` → Project (201) — `projects:write`.
+- `POST   /projects` `{name, key?, description?, url?, timezone?, allowed_origins?, store_ip?}` → Project (201) — `projects:write`.
   `key` defaults to a slug of `name`; must match `^[a-z0-9][a-z0-9-]{0,62}$`
   and be unique per account (409 `key_taken`). `timezone` is an IANA name
   (400 `invalid_timezone`), default `UTC`. Generates the public key.
   402 `limit_reached` (`which: "projects"`).
 - `GET    /projects/:id` → Project — `projects:read`
-- `PATCH  /projects/:id` `{name?, description?, url?, timezone?, allowed_origins?, collect_enabled?, exclude_bots?}` → Project — `projects:write`.
+- `PATCH  /projects/:id` `{name?, description?, url?, timezone?, allowed_origins?, collect_enabled?, exclude_bots?, store_ip?}` → Project — `projects:write`.
   `allowed_origins` is a list (≤ 20) of hostnames (`example.com`,
   `*.example.com`; full URLs are reduced to their host; 400 `invalid_origins`).
 - `DELETE /projects/:id` → 204 — `projects:delete` (cascades events)
@@ -250,6 +253,7 @@ valid, well-formed hit.
   "allowed_origins": ["kinegram.3m4.net"],
   "collect_enabled": true,
   "exclude_bots": true,
+  "store_ip": false,
   "counts": { "pageviews_30d": 1284, "visitors_30d": 611, "pageviews_today": 42, "last_event_at": "2026-10-15T10:00:00Z" },
   "created_at": "2026-10-15T10:00:00Z",
   "updated_at": "2026-10-15T10:00:00Z"
@@ -274,13 +278,15 @@ valid, well-formed hit.
   "screen_w": 1440, "screen_h": 900,
   "lang": "es-ES",
   "visitor": "a1b2c3d4",
+  "ip": null,
   "source": "script",
   "props": {}
 }
 ```
 `kind` ∈ `pageview` | `event`. `device` ∈ `desktop` | `mobile` | `tablet` |
 `bot` | `null`. `source` ∈ `script` | `pixel` | `api`. `visitor` is the first 8
-chars of the daily visitor hash.
+chars of the daily visitor hash; `ip` is the raw address when the project has
+`store_ip` on, otherwise null.
 
 ### Totals / SeriesPoint / BreakdownRow
 ```json

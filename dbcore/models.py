@@ -15,8 +15,9 @@ matched on.
 Events are stored raw (one row per page view or custom event) and aggregated
 on the fly with indexed ``GROUP BY`` queries. That keeps the write path a
 single INSERT and the schema trivial to self-host; roll-ups can come later if
-a project outgrows it. Raw IPs and user agents are never stored: only the
-derived device / browser / OS / geo fields and daily-salted hashes.
+a project outgrows it. Raw user agents are never stored, and raw IPs only
+when a project opts in (``store_ip``): by default only the derived device /
+browser / OS / geo fields and daily-salted hashes are kept.
 """
 from __future__ import annotations
 
@@ -162,6 +163,9 @@ class Project(Base):
     collect_enabled: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default="true")
     # Drop hits whose user agent looks like a crawler / headless browser.
     exclude_bots: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default="true")
+    # Keep the raw visitor IP on each event (off by default: privacy-friendly
+    # mode stores only the daily hash + derived location).
+    store_ip: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default="false")
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
@@ -214,6 +218,8 @@ class Event(Base):
     lang: Mapped[str | None] = mapped_column(String(16))
     visitor_hash: Mapped[str] = mapped_column(String(64), nullable=False)
     ip_hash: Mapped[str | None] = mapped_column(String(64))
+    # Raw address, only when the project has store_ip on.
+    ip: Mapped[str | None] = mapped_column(String(45))
     source: Mapped[str] = mapped_column(String(10), nullable=False, default="script", server_default="script")
     props: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict, server_default="{}")
 

@@ -40,6 +40,7 @@ export const DIMENSION_LABEL: Record<Dimension, CatalogKey> = {
   utm_medium: "dim.utm_medium",
   utm_campaign: "dim.utm_campaign",
   name: "dim.name",
+  ip: "dim.ip",
 };
 
 export const DEVICE_LABEL: Record<Device, CatalogKey> = {

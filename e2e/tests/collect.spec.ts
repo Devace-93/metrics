@@ -136,9 +136,18 @@ test.describe("collect API", () => {
     expect((await collect(request, public_key, { u: "/" })).body.ok).toBe(true);
     expect((await listEvents(request, account, project.id)).total).toBe(2);
 
+    // store_ip keeps the raw address on new hits only.
+    await patchProject(request, account, project.id, { store_ip: true });
+    expect((await collect(request, public_key, { u: "/with-ip" })).body.ok).toBe(true);
+    const rows = (await listEvents(request, account, project.id)).items;
+    expect(rows.find((e) => e.path === "/with-ip")!.ip).toMatch(/^[0-9a-f.:]+$/);
+    expect(rows.find((e) => e.path === "/")!.ip).toBeNull();
+    const byIp = await stats(request, account, project.id, { period: "today" });
+    expect(byIp.breakdowns.ip.length).toBe(1);
+
     const purge = await request.delete(`${API_URL}/projects/${project.id}/events`, { headers: { Authorization: `Bearer ${account.accessToken}` } });
     expect(purge.status(), await purge.text()).toBe(200);
-    expect((await purge.json()).deleted).toBe(2);
+    expect((await purge.json()).deleted).toBe(3);
     expect((await listEvents(request, account, project.id)).total).toBe(0);
   });
 

@@ -42,6 +42,7 @@ export interface Project {
   allowed_origins: string[];
   collect_enabled: boolean;
   exclude_bots: boolean;
+  store_ip: boolean;
   counts: { pageviews_30d: number; visitors_30d: number; pageviews_today: number; last_event_at: string | null };
 }
 

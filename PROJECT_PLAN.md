@@ -22,7 +22,7 @@ without cookies and without storing anyone's IP address.
 | Integration surfaces | (1) `/m.js` tracker (SPA-aware, `metrics.track()`, `data-metrics-event`), (2) `/api/collect/pixel.gif`, (3) `POST /api/collect` (CORS `*`, `text/plain` bodies), (4) management API + MCP server for reading stats |
 | Dimensions | path, hostname, referrer, country, region, city, device, browser, os, lang, utm_source / medium / campaign, custom event name |
 | Visitors | Daily, per-project, cookie-less hash of (IP, UA): no cookie, no storage, no cross-day identity; multi-day visitor totals are daily uniques summed |
-| Privacy | Never store raw IPs or user agents; drop URL query strings (UTM tags only); geo from GeoLite2 (shared with the shortener on the server), switchable with the `geo` feature; bot filter on by default |
+| Privacy | Never store raw user agents; raw IPs only when a project opts in (`store_ip`, off by default); drop URL query strings (UTM tags only); geo from GeoLite2 (shared with the shortener on the server), switchable with the `geo` feature; bot filter on by default |
 | Limits | Hard: projects, API keys (402). Soft-drop: events/month (202, counted, not stored past the budget; a tracked site never sees an error). Retention per plan, pruned by `dbcore.cli prune-events` |
 | Early access | Feature `early-access` ON ⇒ enterprise limits for everyone, billing hidden |
 | Own feature switches | Called **features**; PostHog keys prefixed `metrics-` (one PostHog project shared with 3m4/exp/retro) |
@@ -49,5 +49,3 @@ without cookies and without storing anyone's IP address.
 
 - npm publish of `metrics-mcp`.
 - Whether `info.3m4.net` lists metrics as `building` or `live` at first deploy.
-- Whether to store the raw IP behind a per-project opt-in (currently never; the
-  house rule across the 3m4 apps is hashes + derived geo only).

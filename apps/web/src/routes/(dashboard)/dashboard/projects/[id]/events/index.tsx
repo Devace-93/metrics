@@ -133,7 +133,7 @@ export default component$(() => {
                         <td class="whitespace-nowrap px-3 py-2 text-slate-600">
                           {e.device ? `${DEVICE_ICON[e.device] ?? ""} ` : ""}{[e.browser, e.os].filter(Boolean).join(" · ") || "—"}
                         </td>
-                        <td class="px-3 py-2 font-mono text-xs text-slate-400">{e.visitor}</td>
+                        <td class="px-3 py-2 font-mono text-xs text-slate-400">{e.ip ? <span class="text-slate-700">{e.ip}</span> : e.visitor}</td>
                       </tr>
                       {state.expanded === e.id && (
                         <tr key={`${e.id}-x`} class="bg-slate-50">
@@ -146,6 +146,8 @@ export default component$(() => {
                               {e.region && (<><dt class="text-slate-500">{tr(i18n, "dim.region")}</dt><dd class="text-slate-800">{e.region}</dd></>)}
                               {(e.screen_w || e.screen_h) && (<><dt class="text-slate-500">{tr(i18n, "events.screen")}</dt><dd class="text-slate-800">{e.screen_w}×{e.screen_h}</dd></>)}
                               {e.lang && (<><dt class="text-slate-500">{tr(i18n, "dim.lang")}</dt><dd class="text-slate-800">{e.lang}</dd></>)}
+                              {e.ip && (<><dt class="text-slate-500">IP</dt><dd class="font-mono text-slate-800">{e.ip}</dd></>)}
+                              <dt class="text-slate-500">{tr(i18n, "events.colVisitor")}</dt><dd class="font-mono text-slate-800">{e.visitor}</dd>
                               <dt class="text-slate-500">{tr(i18n, "events.source")}</dt><dd class="text-slate-800">{e.source}</dd>
                               {Object.keys(e.props || {}).length > 0 && (<><dt class="text-slate-500">{tr(i18n, "events.props")}</dt><dd><pre class="overflow-x-auto rounded bg-slate-100 p-2 text-xs">{JSON.stringify(e.props, null, 2)}</pre></dd></>)}
                             </dl>

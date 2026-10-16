@@ -82,7 +82,7 @@ and a bug in the server can hide access but never grant it.
 | `get_live`           | `stats:read`      | ✓ | ✓ | ✓ | last 5 minutes |
 | `get_usage`          | `usage:read`      | ✓ | ✓ | ✓ | events / dropped / counts vs. plan limits |
 | `create_project`     | `projects:write`  |   | ✓ | ✓ | returns the public key + snippet |
-| `update_project`     | `projects:write`  |   | ✓ | ✓ | pause tracking, bots, time zone, allowed hostnames… |
+| `update_project`     | `projects:write`  |   | ✓ | ✓ | pause tracking, bots, store raw IPs, time zone, allowed hostnames… |
 | `rotate_project_key` | `projects:write`  |   | ✓ | ✓ | old key stops working immediately |
 | `delete_project`     | `projects:delete` |   |   | ✓ | **confirmation required** |
 | `purge_events`       | `events:delete`   |   |   | ✓ | **confirmation required**; optional `before` date |

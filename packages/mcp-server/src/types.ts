@@ -25,7 +25,8 @@ export type Dimension =
   | "utm_source"
   | "utm_medium"
   | "utm_campaign"
-  | "name";
+  | "name"
+  | "ip";
 
 export type Period = "today" | "yesterday" | "7d" | "30d" | "90d" | "12mo";
 export type Interval = "hour" | "day" | "month";
@@ -50,6 +51,7 @@ export interface Project {
   allowed_origins: string[];
   collect_enabled: boolean;
   exclude_bots: boolean;
+  store_ip: boolean;
   counts: ProjectCounts;
   created_at: string;
   updated_at: string;
@@ -129,6 +131,7 @@ export interface EventRow {
   screen_h: number | null;
   lang: string | null;
   visitor: string;
+  ip: string | null;
   source: string;
   props: Record<string, unknown>;
 }
@@ -195,6 +198,7 @@ export interface CreateProjectInput {
   url?: string;
   timezone?: string;
   allowed_origins?: string[];
+  store_ip?: boolean;
 }
 
 export interface UpdateProjectInput {
@@ -205,6 +209,7 @@ export interface UpdateProjectInput {
   allowed_origins?: string[];
   collect_enabled?: boolean;
   exclude_bots?: boolean;
+  store_ip?: boolean;
 }
 
 export interface StatsParams {

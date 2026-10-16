@@ -81,6 +81,7 @@ def serialize_project(project, counts: dict | None = None) -> dict:
         "allowed_origins": list(project.allowed_origins or []),
         "collect_enabled": project.collect_enabled,
         "exclude_bots": project.exclude_bots,
+        "store_ip": project.store_ip,
         "counts": {
             "pageviews_30d": counts.get("pageviews_30d", 0),
             "visitors_30d": counts.get("visitors_30d", 0),
@@ -93,7 +94,8 @@ def serialize_project(project, counts: dict | None = None) -> dict:
 
 
 def serialize_event(event) -> dict:
-    """Exactly the CONTRACT.md "Event" shape. No hashes beyond a short visitor id."""
+    """Exactly the CONTRACT.md "Event" shape. No hashes beyond a short visitor id;
+    ``ip`` is null unless the project stores addresses."""
     return {
         "id": event.id,
         "ts": iso(event.ts),
@@ -117,6 +119,7 @@ def serialize_event(event) -> dict:
         "screen_h": event.screen_h,
         "lang": event.lang,
         "visitor": (event.visitor_hash or "")[:8],
+        "ip": event.ip,
         "source": event.source,
         "props": event.props or {},
     }

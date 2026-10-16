@@ -260,9 +260,12 @@ export default component$(() => {
                 <BreakdownCard title={tr(i18n, DIMENSION_LABEL[state.tabs.utm])} dimension={state.tabs.utm} rows={s.breakdowns[state.tabs.utm]} metric={state.metric} active={state.filters[state.tabs.utm]} onSelect$={toggleFilter} onViewAll$={openModal} emptyKey="overview.noUtm" />
               </div>
             </div>
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+            <div class={["mt-4 grid gap-4", p?.store_ip ? "lg:grid-cols-3" : "lg:grid-cols-2"]}>
               <BreakdownCard title={tr(i18n, "dim.lang")} dimension="lang" rows={s.breakdowns.lang} metric={state.metric} active={state.filters.lang} onSelect$={toggleFilter} onViewAll$={openModal} />
               <BreakdownCard title={tr(i18n, "dim.name")} dimension="name" rows={s.breakdowns.name} metric="events" active={state.filters.name} onSelect$={toggleFilter} onViewAll$={openModal} emptyKey="overview.noEvents" />
+              {p?.store_ip && (
+                <BreakdownCard title={tr(i18n, "dim.ip")} dimension="ip" rows={s.breakdowns.ip ?? []} metric={state.metric} active={state.filters.ip} onSelect$={toggleFilter} onViewAll$={openModal} />
+              )}
             </div>
 
             <p class="mt-6 text-xs text-slate-400">{tr(i18n, "overview.visitorsNote")}</p>

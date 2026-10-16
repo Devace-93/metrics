@@ -342,6 +342,7 @@ const zh: PartialCatalog = {
   "dim.utm_medium": "UTM 媒介",
   "dim.utm_campaign": "UTM 活动",
   "dim.name": "自定义事件",
+  "dim.ip": "IP 地址",
   "device.desktop": "桌面",
   "device.mobile": "移动",
   "device.tablet": "平板",
@@ -472,6 +473,8 @@ const zh: PartialCatalog = {
   "psettings.collectEnabled": "收集数据",
   "psettings.excludeBots": "忽略机器人和无头浏览器",
   "psettings.featureOff": "已全局禁用",
+  "psettings.storeIp": "保存访客 IP 地址",
+  "psettings.storeIpHint": "关闭：仅保留每日哈希和推导出的位置。开启：每次访问都会保存真实地址，并显示在事件日志和细分中。",
   "psettings.geoOff": "位置查询目前已全局禁用；新数据存储时不含国家或城市。",
   "psettings.allowedOrigins": "允许的主机名",
   "psettings.allowedOriginsHint":

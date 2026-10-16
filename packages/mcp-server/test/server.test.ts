@@ -26,7 +26,7 @@ const keyInfo = (role: Role): KeyInfo => ({
 });
 
 const NOW = "2026-10-15T00:00:00Z";
-const DIMENSIONS: Dimension[] = ["path", "hostname", "referrer", "country", "region", "city", "device", "browser", "os", "lang", "utm_source", "utm_medium", "utm_campaign", "name"];
+const DIMENSIONS: Dimension[] = ["path", "hostname", "referrer", "country", "region", "city", "device", "browser", "os", "lang", "utm_source", "utm_medium", "utm_campaign", "name", "ip"];
 
 const json = (status: number, body: unknown) =>
   new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
@@ -63,7 +63,7 @@ class FakeApi {
       referrer: input.referrer_host ? `https://${input.referrer_host}/` : null, referrer_host: input.referrer_host ?? null,
       utm_source: null, utm_medium: null, utm_campaign: null, country: input.country ?? null, region: null, city: input.city ?? null,
       device: input.device ?? "desktop", browser: input.browser ?? "Chrome", os: input.os ?? "Linux", screen_w: 1440, screen_h: 900, lang: "en-US",
-      visitor: input.visitor ?? `v${this.n}`, source: "script", props: input.props ?? {},
+      visitor: input.visitor ?? `v${this.n}`, ip: null, source: "script", props: input.props ?? {},
     };
     this.events.set(projectId, [e, ...(this.events.get(projectId) ?? [])]);
     return e;
@@ -122,7 +122,7 @@ class FakeApi {
       const p: Project = {
         id: crypto.randomUUID(), key, name: body.name, description: body.description ?? null, url: body.url ?? null,
         public_key: `metrics_pub_k${this.n}secret`, public_key_prefix: `metrics_pub_k${this.n}`,
-        timezone: body.timezone ?? "UTC", allowed_origins: body.allowed_origins ?? [], collect_enabled: true, exclude_bots: true,
+        timezone: body.timezone ?? "UTC", allowed_origins: body.allowed_origins ?? [], collect_enabled: true, exclude_bots: true, store_ip: body.store_ip ?? false,
         counts: { pageviews_30d: 0, visitors_30d: 0, pageviews_today: 0, last_event_at: null }, created_at: NOW, updated_at: NOW,
       };
       this.projects.set(p.id, p);

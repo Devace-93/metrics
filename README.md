@@ -21,10 +21,12 @@ the MCP server. MIT.
   pages and Phaser games alike.
 - **Or no JavaScript at all.** A 1×1 pixel for emails and READMEs, and a
   collect API for backends, CLIs and cron jobs.
-- **Privacy by construction.** The tracker sets no cookie and stores nothing
-  in the browser. The server hashes IPs with a daily salt, keeps only the
+- **Privacy by default.** The tracker sets no cookie and stores nothing in
+  the browser. The server hashes IPs with a daily salt, keeps only the
   derived country / region / city, discards the user agent once device /
-  browser / OS are known, and drops query strings from page URLs.
+  browser / OS are known, and drops query strings from page URLs. Projects
+  that need raw addresses flip one switch (`store_ip`) and get them in the
+  event log and as a breakdown.
 - **Agents are users too.** API keys carry a role (viewer / editor / admin),
   every mutation is audited, destructive tools ask for confirmation.
 - **Your site never sees an error.** Hits over the monthly budget are counted

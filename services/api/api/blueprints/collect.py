@@ -9,9 +9,10 @@ Design rules:
 * **Soft-drop limit.** Every hit is metered (+1 ``events`` on the account's
   monthly counter); past the plan budget the hit is counted but not stored,
   and one PostHog ``limit_reached`` event fires per period.
-* **No raw IP, no raw user agent.** Both are used transiently for the daily
-  visitor hash, the rate limit, the device / browser / OS fields and the geo
-  lookup, then dropped. See ``dbcore.privacy`` and ``dbcore.events``.
+* **No raw user agent, and no raw IP unless the project opts in.** Both are
+  used transiently for the daily visitor hash, the rate limit, the device /
+  browser / OS fields and the geo lookup; the IP is kept on the event only
+  when ``Project.store_ip`` is on. See ``dbcore.privacy`` and ``dbcore.events``.
 * ``collect-api`` OFF is an emergency kill switch (503).
 """
 from __future__ import annotations
@@ -128,6 +129,7 @@ def store_hit(session: Session, project: Project, hit: Hit, *, source: str) -> t
             lang=hit.lang,
             visitor_hash=visitor_hash(project.id, ip, ua),
             ip_hash=ip_hash(ip),
+            ip=(ip or "")[:45] or None if project.store_ip else None,
             source=source,
             props=hit.props,
         )

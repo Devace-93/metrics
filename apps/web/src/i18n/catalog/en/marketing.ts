@@ -58,7 +58,7 @@ export const marketing = {
   "landing.privacyBody":
     "The tracker sets no cookie and writes nothing to the browser. The server hashes each visitor's IP address with a salt that changes every day, keeps only the derived country, region and city, and throws the user agent away once device, browser and OS are known.",
   "landing.privacy1": "No cookies, no localStorage, no fingerprinting across sites or days",
-  "landing.privacy2": "Raw IP addresses are never stored — only a daily salted hash",
+  "landing.privacy2": "Raw IP addresses are not stored by default — only a daily salted hash (a per-project switch keeps them if you need to)",
   "landing.privacy3": "Query strings are dropped from page URLs (except UTM tags), so tokens and emails never reach the dashboard",
   "landing.privacy4": "Optional Do Not Track support, and bots are filtered out",
   "landing.apiNote": "Public keys can only send hits. They can never read anything.",
@@ -213,7 +213,7 @@ export const marketing = {
   "docs.errorsBody":
     "Errors are JSON: { \"error\": { \"code\", \"message\" } }. Creating past a plan limit answers 402 limit_reached with error.which = projects | api_keys. Hits over the monthly event budget are accepted (202) but not stored.",
   "docs.privacyBody":
-    "Privacy: metrics never stores raw IP addresses or user agents — only a salted daily hash and the derived device / browser / OS / location fields. Page URLs lose their query string before storage.",
+    "Privacy: by default metrics stores no raw IP addresses or user agents — only a salted daily hash and the derived device / browser / OS / location fields. A per-project switch (store_ip) keeps the raw address on each hit. Page URLs lose their query string before storage.",
   "docs.mcpTitle": "MCP (AI agents)",
   "docs.mcpBody":
     "The MCP server exposes the management API as tools, filtered by the role of the key you connect with. Destructive tools ask for confirmation. A weekly_report prompt walks a model through a project's numbers.",

@@ -254,6 +254,13 @@ export default component$(() => {
                   <span class="font-medium text-slate-800">{tr(i18n, "psettings.excludeBots")}</span>
                   <Switch checked={p.exclude_bots} label={tr(i18n, "psettings.excludeBots")} disabled={!!state.busy} onToggle$={(next) => save({ exclude_bots: next }, "bots")} />
                 </label>
+                <label class="flex items-center justify-between gap-3 rounded-lg border border-slate-200 p-3 text-sm sm:col-span-2">
+                  <span>
+                    <span class="font-medium text-slate-800">{tr(i18n, "psettings.storeIp")}</span>
+                    <span class="mt-0.5 block text-xs text-slate-500">{tr(i18n, "psettings.storeIpHint")}</span>
+                  </span>
+                  <Switch checked={p.store_ip} label={tr(i18n, "psettings.storeIp")} disabled={!!state.busy} onToggle$={(next) => save({ store_ip: next }, "ip")} />
+                </label>
               </div>
               {!features.geo && <p class="mt-3 text-xs text-amber-700">{tr(i18n, "psettings.geoOff")}</p>}
               <form class="mt-4 space-y-4" preventdefault:submit onSubmit$={() => save({ timezone: state.timezone.trim() || "UTC", allowed_origins: state.origins.split(/[\n,]/).map((s) => s.trim()).filter(Boolean) }, "tracking")}>

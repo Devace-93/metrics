@@ -39,7 +39,7 @@ bp = Blueprint("projects", __name__)
 public_limit = limiter.limit(config.rate_limit_public_api, key_func=public_api_key_func)
 
 _STRING_FIELDS = {"name": 120, "description": 20000, "url": 2048}
-_BOOL_FIELDS = ("collect_enabled", "exclude_bots")
+_BOOL_FIELDS = ("collect_enabled", "exclude_bots", "store_ip")
 MAX_ALLOWED_ORIGINS = 20
 
 
@@ -205,6 +205,7 @@ def create_project():
             url=url,
             timezone=tz,
             allowed_origins=origins,
+            store_ip=bool(data.get("store_ip", False)),
         )
         _mint_public_key(project)
         session.add(project)

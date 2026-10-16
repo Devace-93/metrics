@@ -384,6 +384,7 @@ const ro: PartialCatalog = {
   "dim.utm_medium": "Medii UTM",
   "dim.utm_campaign": "Campanii UTM",
   "dim.name": "Evenimente personalizate",
+  "dim.ip": "Adrese IP",
   "device.desktop": "Desktop",
   "device.mobile": "Mobil",
   "device.tablet": "Tabletă",
@@ -525,6 +526,8 @@ const ro: PartialCatalog = {
   "psettings.collectEnabled": "Colectează hituri",
   "psettings.excludeBots": "Ignoră boții și browserele headless",
   "psettings.featureOff": "dezactivat global",
+  "psettings.storeIp": "Stochează adresele IP ale vizitatorilor",
+  "psettings.storeIpHint": "Oprit: se păstrează doar un hash zilnic și locația derivată. Pornit: adresa reală este salvată cu fiecare hit și apare în jurnalul de evenimente și ca defalcare.",
   "psettings.geoOff":
     "Căutările de locație sunt momentan dezactivate global; hiturile noi sunt stocate fără țară sau oraș.",
   "psettings.allowedOrigins": "Hostname-uri permise",

@@ -35,7 +35,7 @@ bp = Blueprint("stats", __name__)
 
 OVERVIEW_DIMENSIONS = (
     "path", "referrer", "country", "region", "city", "device", "browser", "os", "lang",
-    "utm_source", "utm_medium", "utm_campaign", "name",
+    "utm_source", "utm_medium", "utm_campaign", "name", "ip",
 )
 
 

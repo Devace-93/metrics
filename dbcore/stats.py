@@ -41,6 +41,7 @@ DIMENSIONS = {
     "utm_medium": Event.utm_medium,
     "utm_campaign": Event.utm_campaign,
     "name": Event.name,
+    "ip": Event.ip,
 }
 DIRECT = "(direct)"
 

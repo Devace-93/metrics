@@ -351,6 +351,7 @@ const ko: PartialCatalog = {
   "dim.utm_medium": "UTM 매체",
   "dim.utm_campaign": "UTM 캠페인",
   "dim.name": "커스텀 이벤트",
+  "dim.ip": "IP 주소",
   "device.desktop": "데스크톱",
   "device.mobile": "모바일",
   "device.tablet": "태블릿",
@@ -484,6 +485,8 @@ const ko: PartialCatalog = {
   "psettings.collectEnabled": "히트 수집",
   "psettings.excludeBots": "봇과 헤드리스 브라우저 무시",
   "psettings.featureOff": "전체 비활성화",
+  "psettings.storeIp": "방문자 IP 주소 저장",
+  "psettings.storeIpHint": "꺼짐: 일별 해시와 추정 위치만 보관합니다. 켜짐: 실제 주소를 모든 히트와 함께 저장하고 이벤트 로그와 분류에 표시합니다.",
   "psettings.geoOff": "위치 조회가 현재 전체적으로 비활성화되어 있습니다. 새 히트는 국가나 도시 없이 저장됩니다.",
   "psettings.allowedOrigins": "허용 호스트 이름",
   "psettings.allowedOriginsHint":

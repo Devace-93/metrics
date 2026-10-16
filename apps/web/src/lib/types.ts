@@ -75,6 +75,8 @@ export interface Project {
   allowed_origins: string[];
   collect_enabled: boolean;
   exclude_bots: boolean;
+  /** Keep the raw visitor IP on each hit (off by default). */
+  store_ip: boolean;
   counts: ProjectCounts;
   created_at: string;
   updated_at: string;
@@ -88,6 +90,7 @@ export interface ProjectPatch {
   allowed_origins?: string[];
   collect_enabled?: boolean;
   exclude_bots?: boolean;
+  store_ip?: boolean;
 }
 
 export type EventKind = "pageview" | "event";
@@ -108,7 +111,8 @@ export type Dimension =
   | "utm_source"
   | "utm_medium"
   | "utm_campaign"
-  | "name";
+  | "name"
+  | "ip";
 
 export type Period = "today" | "yesterday" | "7d" | "30d" | "90d" | "12mo";
 export type Interval = "hour" | "day" | "month";
@@ -192,6 +196,8 @@ export interface EventRow {
   lang?: string | null;
   /** First 8 chars of the daily visitor hash (for grouping rows by visitor). */
   visitor: string;
+  /** Raw address, only when the project stores IPs. */
+  ip?: string | null;
   source: EventSource;
   props: Record<string, unknown>;
 }

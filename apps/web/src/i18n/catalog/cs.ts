@@ -376,6 +376,7 @@ const cs: PartialCatalog = {
   "dim.utm_medium": "UTM média",
   "dim.utm_campaign": "UTM kampaně",
   "dim.name": "Vlastní události",
+  "dim.ip": "IP adresy",
   "device.desktop": "Počítač",
   "device.mobile": "Mobil",
   "device.tablet": "Tablet",
@@ -516,6 +517,8 @@ const cs: PartialCatalog = {
   "psettings.collectEnabled": "Sbírat hity",
   "psettings.excludeBots": "Ignorovat boty a headless prohlížeče",
   "psettings.featureOff": "globálně vypnuto",
+  "psettings.storeIp": "Ukládat IP adresy návštěvníků",
+  "psettings.storeIpHint": "Vypnuto: uchovává se jen denní hash a odvozená poloha. Zapnuto: skutečná adresa se ukládá s každým hitem a zobrazuje se v protokolu událostí a jako rozpad.",
   "psettings.geoOff":
     "Zjišťování polohy je teď globálně vypnuté; nové hity se ukládají bez země a města.",
   "psettings.allowedOrigins": "Povolené hostnames",

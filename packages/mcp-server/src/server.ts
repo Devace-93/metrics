@@ -49,7 +49,7 @@ export interface MetricsServerOptions {
 // --------------------------------------------------------------------------- //
 const DIMENSIONS = [
   "path", "hostname", "referrer", "country", "region", "city", "device", "browser", "os", "lang",
-  "utm_source", "utm_medium", "utm_campaign", "name",
+  "utm_source", "utm_medium", "utm_campaign", "name", "ip",
 ] as const;
 const PERIODS = ["today", "yesterday", "7d", "30d", "90d", "12mo"] as const;
 const INTERVALS = ["hour", "day", "month"] as const;
@@ -57,7 +57,7 @@ const PROJECT_KEY_RE = /^[a-z0-9][a-z0-9-]{0,62}$/;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 const projectId = z.uuid().describe("The project's id (UUID), as returned by list_projects or create_project.");
-const dimensionEnum = z.enum(DIMENSIONS).describe("path | hostname | referrer | country | region | city | device | browser | os | lang | utm_source | utm_medium | utm_campaign | name.");
+const dimensionEnum = z.enum(DIMENSIONS).describe("path | hostname | referrer | country | region | city | device | browser | os | lang | utm_source | utm_medium | utm_campaign | name | ip (ip only has values when the project stores addresses).");
 const confirmFlag = z
   .boolean()
   .default(false)
@@ -94,6 +94,7 @@ const projectObject = z.looseObject({
   allowed_origins: z.array(z.string()),
   collect_enabled: z.boolean(),
   exclude_bots: z.boolean(),
+  store_ip: z.boolean().optional(),
   counts: countsObject.optional(),
   created_at: z.string(),
   updated_at: z.string(),
@@ -140,6 +141,7 @@ const eventObject = z.looseObject({
   browser: z.string().nullable(),
   os: z.string().nullable(),
   visitor: z.string(),
+  ip: z.string().nullable().optional(),
   source: z.string(),
   props: z.record(z.string(), z.unknown()),
 });
@@ -432,7 +434,7 @@ export function createMetricsServer(opts: MetricsServerOptions): McpServer {
       const p = await client.getProject(project_id);
       return structured(
         { ...p },
-        `${describeProject(p)}\nPublic key: ${p.public_key}\nAllowed hostnames: ${p.allowed_origins.join(", ") || "any"} · bots excluded: ${p.exclude_bots}`,
+        `${describeProject(p)}\nPublic key: ${p.public_key}\nAllowed hostnames: ${p.allowed_origins.join(", ") || "any"} · bots excluded: ${p.exclude_bots} · raw IPs stored: ${p.store_ip ?? false}`,
       );
     },
   );
@@ -454,6 +456,7 @@ export function createMetricsServer(opts: MetricsServerOptions): McpServer {
         url: z.string().url().max(2048).optional().describe("The site's public URL."),
         timezone: z.string().max(64).optional().describe("IANA time zone used to bucket days (default UTC)."),
         allowed_origins: z.array(z.string().max(253)).max(20).optional().describe("Hostnames allowed to send hits (example.com, *.example.com). Empty = any."),
+        store_ip: z.boolean().optional().describe("Keep the raw visitor IP on each hit (default false: only a daily hash + derived location)."),
       },
       outputSchema: projectObject,
       annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false },
@@ -472,7 +475,7 @@ export function createMetricsServer(opts: MetricsServerOptions): McpServer {
     {
       title: "Update project",
       description:
-        "Change a project's name, description, URL, time zone, allowed hostnames or tracking switches (collect_enabled pauses tracking, exclude_bots drops crawlers). Only the fields you pass are changed; the key cannot change. Errors: invalid_timezone, invalid_origins.",
+        "Change a project's name, description, URL, time zone, allowed hostnames or tracking switches (collect_enabled pauses tracking, exclude_bots drops crawlers, store_ip keeps raw addresses). Only the fields you pass are changed; the key cannot change. Errors: invalid_timezone, invalid_origins.",
       inputSchema: {
         project_id: projectId,
         name: z.string().min(1).max(100).optional(),
@@ -482,6 +485,7 @@ export function createMetricsServer(opts: MetricsServerOptions): McpServer {
         allowed_origins: z.array(z.string().max(253)).max(20).optional(),
         collect_enabled: z.boolean().optional().describe("false pauses tracking without touching the snippet."),
         exclude_bots: z.boolean().optional(),
+        store_ip: z.boolean().optional().describe("true keeps the raw visitor IP on each hit; it then appears in list_events and as the ip dimension."),
       },
       outputSchema: projectObject,
       annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true },
@@ -642,7 +646,7 @@ export function createMetricsServer(opts: MetricsServerOptions): McpServer {
       const page = await client.events(project_id, params);
       const lines = page.items.map(
         (e) =>
-          `${e.ts} ${e.kind === "event" ? `⚡ ${e.name}` : "view"} ${e.path}${e.referrer_host ? ` ← ${e.referrer_host}` : ""}${e.country ? ` ${e.country}${e.city ? `/${e.city}` : ""}` : ""} ${[e.device, e.browser, e.os].filter(Boolean).join("/")} v=${e.visitor}${Object.keys(e.props ?? {}).length ? ` ${JSON.stringify(e.props)}` : ""}`,
+          `${e.ts} ${e.kind === "event" ? `⚡ ${e.name}` : "view"} ${e.path}${e.referrer_host ? ` ← ${e.referrer_host}` : ""}${e.country ? ` ${e.country}${e.city ? `/${e.city}` : ""}` : ""} ${[e.device, e.browser, e.os].filter(Boolean).join("/")} v=${e.visitor}${e.ip ? ` ip=${e.ip}` : ""}${Object.keys(e.props ?? {}).length ? ` ${JSON.stringify(e.props)}` : ""}`,
       );
       return structured({ ...page }, `${page.total} event(s) total; showing page ${page.page} (${page.items.length}).\n${lines.join("\n") || "(none)"}`);
     },

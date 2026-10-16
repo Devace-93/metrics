@@ -349,6 +349,7 @@ const ja: PartialCatalog = {
   "dim.utm_medium": "UTMメディア",
   "dim.utm_campaign": "UTMキャンペーン",
   "dim.name": "カスタムイベント",
+  "dim.ip": "IPアドレス",
   "device.desktop": "デスクトップ",
   "device.mobile": "モバイル",
   "device.tablet": "タブレット",
@@ -481,6 +482,8 @@ const ja: PartialCatalog = {
   "psettings.collectEnabled": "ヒットを収集",
   "psettings.excludeBots": "ボットとヘッドレスブラウザを無視",
   "psettings.featureOff": "全体で無効",
+  "psettings.storeIp": "訪問者のIPアドレスを保存する",
+  "psettings.storeIpHint": "オフ：日次ハッシュと推定した位置情報のみ保持します。オン：実際のアドレスをヒットごとに保存し、イベントログと内訳に表示します。",
   "psettings.geoOff": "位置の検索は現在、全体で無効です。新しいヒットは国や都市なしで保存されます。",
   "psettings.allowedOrigins": "許可ホスト名",
   "psettings.allowedOriginsHint":
