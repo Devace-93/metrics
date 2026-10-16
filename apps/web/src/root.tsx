@@ -20,6 +20,16 @@ export default component$(() => {
         <script
           dangerouslySetInnerHTML={`try{var t=localStorage.getItem("3m4.theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;var l=localStorage.getItem("3m4.lang");if(l){document.documentElement.lang=l;document.documentElement.dir=l.slice(0,2)==="ar"?"rtl":"ltr"}}catch(e){}`}
         />
+        {/* metrics web analytics (page views, visitors, referrers, devices;
+            cookie-less). Rendered only when a project key is configured at
+            build time. */}
+        {import.meta.env.VITE_METRICS_PROJECT_KEY && (
+          <script
+            src={import.meta.env.VITE_METRICS_TRACKER_URL || "https://metrics.3m4.net/m.js"}
+            data-key={import.meta.env.VITE_METRICS_PROJECT_KEY}
+            defer
+          />
+        )}
       </head>
       <body class="min-h-screen bg-white">
         <RouterOutlet />
