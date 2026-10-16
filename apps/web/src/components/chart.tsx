@@ -38,7 +38,9 @@ export const Chart = component$<Props>(({ points, metric, interval }) => {
   const plotH = H - PAD.top - PAD.bottom;
   const band = n ? plotW / n : plotW;
   const bw = Math.max(2, Math.min(24, band * 0.7));
-  const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => f * top);
+  // Integer ticks: split the nice max into 4, 5 or 2 steps, whichever divides it.
+  const divisions = top % 4 === 0 ? 4 : top % 5 === 0 ? 5 : 2;
+  const ticks = Array.from({ length: divisions + 1 }, (_, k) => (k * top) / divisions);
   const labelEvery = Math.max(1, Math.ceil(n / (interval === "hour" ? 8 : 10)));
   const h = hover.i >= 0 ? points[hover.i] : null;
   const metricLabel = tr(i18n, METRIC_LABEL[metric]);
