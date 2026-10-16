@@ -49,15 +49,18 @@ export default component$(() => {
 
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
+    load();
     api
       .getProject(id)
       .then((p) => (state.project = p))
       .catch(() => {});
   });
 
+  // Reload on filter changes (the first load is the visible task above: a
+  // tracking task does not re-run on hydration).
   useTask$(({ track, cleanup }) => {
-    track(() => [state.period, state.kind, state.q, state.page]);
-    if (typeof window === "undefined") return;
+    const key = track(() => [state.period, state.kind, state.q, state.page].join("|"));
+    if (typeof window === "undefined" || key === "7d||" + "|1") return;
     const t = setTimeout(() => load(), state.q ? 300 : 0);
     cleanup(() => clearTimeout(t));
   });

@@ -155,14 +155,15 @@ test.describe("collect API", () => {
       },
     });
     expect([200, 204]).toContain(preflight.status());
-    expect(preflight.headers()["access-control-allow-origin"]).toBe("*");
+    // flask-cors echoes the caller's origin for a wildcard resource; both forms are CORS-open.
+    expect(["*", "https://third-party.example"]).toContain(preflight.headers()["access-control-allow-origin"]);
 
     const hit = await request.post(`${API_URL}/collect`, {
       headers: { "X-Project-Key": project.public_key, "User-Agent": DESKTOP_UA, Origin: "https://third-party.example" },
       data: { u: "https://third-party.example/" },
     });
     expect(hit.status()).toBe(202);
-    expect(hit.headers()["access-control-allow-origin"]).toBe("*");
+    expect(["*", "https://third-party.example"]).toContain(hit.headers()["access-control-allow-origin"]);
 
     const tracker = await request.get(TRACKER_URL);
     expect(tracker.status()).toBe(200);

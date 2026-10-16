@@ -93,14 +93,16 @@ export default component$(() => {
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(({ cleanup }) => {
     loadProject();
+    loadStats();
     const timer = setInterval(() => (state.tick += 1), LIVE_REFRESH_MS);
     cleanup(() => clearInterval(timer));
   });
 
-  // Reload whenever the range or a filter changes.
+  // Reload whenever the range or a filter changes (the first load happens in
+  // the visible task above: a tracking task does not re-run on hydration).
   useTask$(({ track }) => {
-    track(() => [state.period, state.from, state.to, JSON.stringify(state.filters)]);
-    if (typeof window === "undefined") return;
+    const key = track(() => [state.period, state.from, state.to, JSON.stringify(state.filters)].join("|"));
+    if (typeof window === "undefined" || key === "30d|||{}") return;
     loadStats();
   });
 

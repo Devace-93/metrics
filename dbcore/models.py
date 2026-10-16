@@ -150,7 +150,7 @@ class Project(Base):
     # hash is the lookup column for collect requests. Rotation replaces all three.
     public_key: Mapped[str] = mapped_column(String(64), nullable=False)
     public_key_hash: Mapped[str] = mapped_column(String(128), nullable=False, unique=True, index=True)
-    public_key_prefix: Mapped[str] = mapped_column(String(16), nullable=False)
+    public_key_prefix: Mapped[str] = mapped_column(String(24), nullable=False)
 
     # Tracking settings.
     # IANA time zone used to bucket days in the dashboard and the stats API.
@@ -248,7 +248,7 @@ class ApiKey(Base):
     name: Mapped[str] = mapped_column(String(120))
     # RBAC role: viewer | editor | admin (see packages/shared/api_key_roles.json).
     role: Mapped[str] = mapped_column(String(20), nullable=False, default="editor", server_default="editor")
-    prefix: Mapped[str] = mapped_column(String(16), index=True)        # shown in UI, e.g. metrics_live_AbCd
+    prefix: Mapped[str] = mapped_column(String(24), index=True)        # shown in UI, e.g. metrics_live_AbCd
     key_hash: Mapped[str] = mapped_column(String(128), nullable=False, unique=True, index=True)
     last_used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

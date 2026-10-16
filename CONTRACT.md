@@ -185,8 +185,9 @@ valid, well-formed hit.
   | `s` / `source` | `script` (default) \| `pixel` \| `api` |
 
   Response `{ "ok": true }` when stored, or `{ "ok": false, "reason": r }` with
-  `r` = `paused` (`collect_enabled` is false) · `origin` (page host not in
-  `allowed_origins`) · `bot` (UA looks like a crawler / headless browser and
+  `r` = `paused` (`collect_enabled` is false) · `origin` (page host — from the
+  URL or the `Origin` / `Referer` header — not in `allowed_origins`; a bare path
+  with no header passes, since it cannot be attributed to a host) · `bot` (UA looks like a crawler / headless browser and
   `exclude_bots` is true) · `limit` (over the monthly budget). Bots and
   origin / paused drops are not metered; limit drops are.
   Device, browser, OS, location, `visitor_hash` and `ip_hash` come from the

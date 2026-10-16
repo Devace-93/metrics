@@ -7,7 +7,10 @@ import { defineConfig, devices } from "@playwright/test";
  * tracker at <base>/m.js.
  *
  * The browser gets a real Chrome UA: headless Chrome's default UA is (on
- * purpose) filtered out by the collect API as a bot.
+ * purpose) filtered out by the collect API as a bot. Chromium's Local Network
+ * Access checks are disabled so a routed "public" host page (host.example) can
+ * load /m.js and post hits to the loopback stack, like a real site would to
+ * metrics.3m4.net.
  */
 export const BASE_URL = process.env.E2E_BASE_URL?.replace(/\/$/, "") || "http://localhost:8083";
 
@@ -33,5 +36,16 @@ export default defineConfig({
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"], userAgent: DESKTOP_UA } }],
+  projects: [
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        userAgent: DESKTOP_UA,
+        launchOptions: {
+          args: ["--disable-features=LocalNetworkAccessChecks,PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults"],
+        },
+      },
+    },
+  ],
 });

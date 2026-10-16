@@ -77,8 +77,11 @@ def store_hit(session: Session, project: Project, hit: Hit, *, source: str) -> t
     explains a drop: paused | origin | bot | limit."""
     if not project.collect_enabled:
         return False, "paused"
+    # The allowed-origins check needs a hostname to compare: the page URL's, or
+    # the Origin / Referer header. A bare path with neither (a pixel in an
+    # email, a server-side call) cannot be attributed to a host and passes.
     page_host = hit.hostname or _origin_host()
-    if project.allowed_origins and not host_allowed(page_host, project.allowed_origins):
+    if project.allowed_origins and page_host and not host_allowed(page_host, project.allowed_origins):
         return False, "origin"
 
     ua = request.headers.get("User-Agent") or ""
