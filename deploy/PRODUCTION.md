@@ -23,14 +23,16 @@ network.
    `IP_HASH_SECRET`, PostHog keys (`POSTHOG_API_KEY`, `POSTHOG_PERSONAL_API_KEY`,
    `VITE_POSTHOG_KEY`; flags are prefixed `metrics-` in the shared PostHog
    project), RevenueCat keys when billing is switched on, a fresh Postgres
-   password (also in `DATABASE_URL`).
+   password: set `POSTGRES_PASSWORD` (read by the postgres service through
+   `--env-file ../.env`) and use the same value in `DATABASE_URL`.
+   `deploy/first-deploy.sh` does all of this (steps 1-4, 7 and 8) in one go.
 3. **GeoIP**: nothing to download. `docker-compose.prod.yml` mounts the
    shortener's `/opt/3m4/deploy/geoip` (kept fresh by its weekly
    `geoip-update.sh` cron) read-only at `/geoip`.
 4. **Start**
    ```sh
    cd /opt/metrics/deploy
-   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+   docker compose --env-file ../.env -f docker-compose.yml -f docker-compose.prod.yml up -d --build
    ```
    Container names are stable (`metrics-api-1`, `metrics-web-1`, `metrics-mcp-1`):
    compose project `metrics`, one replica each. The edge Caddy routes by name.
@@ -60,7 +62,7 @@ network.
 8. **Retention**: add a nightly cron that prunes events past each plan's
    retention window:
    ```
-   30 4 * * * cd /opt/metrics/deploy && docker compose -f docker-compose.yml -f docker-compose.prod.yml run --rm migrate python -m dbcore.cli prune-events >> /var/log/metrics-prune.log 2>&1
+   30 4 * * * cd /opt/metrics/deploy && docker compose --env-file ../.env -f docker-compose.yml -f docker-compose.prod.yml run --rm migrate python -m dbcore.cli prune-events >> /var/log/metrics-prune.log 2>&1
    ```
    (No-op while `early-access` is ON: every account has unlimited retention.)
 9. **Deploy-on-push**: in the GitHub repo set secrets `DEPLOY_HOST` and
