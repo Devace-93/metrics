@@ -9,8 +9,6 @@ const esES: PartialCatalog = {
     "Un script sin dependencias de menos de 3 KB servido desde este host. Añádelo una vez en tu layout; envía un hit por vista de página y por cambio de ruta de la SPA, sin cookies y sin guardar nada en el navegador.",
   "device.desktop": "Ordenador",
   "device.tablet": "Tableta",
-  "auth.loginSubtitle": "Bienvenido de nuevo a metrics.",
-  "auth.inviteOnlyBody": "Estamos abriendo poco a poco. Mantente al tanto: pronto habrá plazas.",
   "dash.usageEventsHint": "Vistas de página + eventos personalizados recibidos este mes natural.",
   "psettings.installBody": "Añade el script a tu layout, pon un pixel donde no se ejecute JavaScript o envía un POST a la API de recolección desde tu backend.",
   "psettings.snippetPixelHint": "Para correos y READMEs. u es la página o cosa que quieres contar; añade n=open para un evento con nombre. Detalles:",

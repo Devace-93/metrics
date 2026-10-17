@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { API_URL, DESKTOP_UA, MOBILE_UA, TRACKER_URL, collect, createProject, listEvents, patchProject, registerAccount, stats } from "../helpers";
+import { API_URL, DESKTOP_UA, MOBILE_UA, TRACKER_URL, collect, createProject, jwtHeaders, listEvents, patchProject, registerAccount, stats } from "../helpers";
 
 /**
  * The public collect API: JSON with the key in a header, text/plain body with
@@ -129,7 +129,7 @@ test.describe("collect API", () => {
     const account = await registerAccount(request);
     const project = await createProject(request, account);
     await collect(request, project.public_key, { u: "/" });
-    const rot = await request.post(`${API_URL}/projects/${project.id}/rotate-key`, { headers: { Authorization: `Bearer ${account.accessToken}` } });
+    const rot = await request.post(`${API_URL}/projects/${project.id}/rotate-key`, { headers: jwtHeaders(account) });
     expect(rot.status()).toBe(200);
     const { public_key } = await rot.json();
     expect((await collect(request, project.public_key, { u: "/" })).status).toBe(401);
@@ -145,7 +145,7 @@ test.describe("collect API", () => {
     const byIp = await stats(request, account, project.id, { period: "today" });
     expect(byIp.breakdowns.ip.length).toBe(1);
 
-    const purge = await request.delete(`${API_URL}/projects/${project.id}/events`, { headers: { Authorization: `Bearer ${account.accessToken}` } });
+    const purge = await request.delete(`${API_URL}/projects/${project.id}/events`, { headers: jwtHeaders(account) });
     expect(purge.status(), await purge.text()).toBe(200);
     expect((await purge.json()).deleted).toBe(3);
     expect((await listEvents(request, account, project.id)).total).toBe(0);

@@ -62,7 +62,9 @@ The interface contract is [`CONTRACT.md`](CONTRACT.md); the plan is
 ## Quick start (Docker)
 
 ```bash
-cp .env.example .env        # then edit secrets (JWT_SECRET_KEY, IP_HASH_SECRET, ...)
+cp .env.example .env        # then edit secrets (IP_HASH_SECRET, ...) and ACCOUNTS_URL
+cd ~/accounts && make up    # identity: the shared accounts stack (:8085) must be up
+cd - >/dev/null
 make geoip                  # optional: put a GeoLite2-City.mmdb in deploy/geoip for locations
 make up                     # build + start everything; creates the schema
 # open http://localhost:8083

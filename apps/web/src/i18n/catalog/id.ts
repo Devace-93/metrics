@@ -11,6 +11,9 @@ const id: PartialCatalog = {
   "nav.signup": "Daftar gratis",
   "nav.dashboard": "Dasbor",
   "nav.logout": "Keluar",
+  "nav.profile": "Profil",
+  "auth.unverifiedBanner": "Konfirmasi alamat e-mail Anda ({email}) untuk membuat proyek dan kunci API.",
+  "auth.resendAt": "Verifikasi sekarang",
   "nav.openMenu": "Buka menu",
   "nav.closeMenu": "Tutup menu",
   "nav.projects": "Proyek",
@@ -330,27 +333,8 @@ const id: PartialCatalog = {
   "device.bot": "Bot",
 
   // Auth: login
-  "auth.loginTitle": "Masuk",
-  "auth.loginSubtitle": "Selamat datang kembali di metrics.",
-  "auth.loginFailed": "Gagal masuk. Periksa email dan kata sandi Anda.",
-  "auth.loggingIn": "Sedang masuk…",
-  "auth.noAccount": "Belum punya akun?",
-  "auth.signUp": "Daftar",
 
   // Auth: signup
-  "auth.signupTitle": "Buat akun Anda",
-  "auth.signupFailed": "Pendaftaran gagal. Silakan coba lagi.",
-  "auth.inviteOnlyTitle": "🔒 Pendaftaran saat ini hanya dengan undangan",
-  "auth.inviteOnlyBody": "Kami membukanya secara bertahap. Pantau terus — slot segera dibuka.",
-  "auth.haveAccount": "Sudah punya akun?",
-  "auth.logIn": "Masuk",
-  "auth.earlyAccessPitch": "Akses awal: akses penuh, gratis. Tanpa kartu.",
-  "auth.freePitch": "Gratis selamanya: {projects} proyek & {events} event / bulan.",
-  "auth.workspaceName": "Nama workspace",
-  "auth.workspacePlaceholder": "PT Acme",
-  "auth.passwordHint": "Minimal 8 karakter.",
-  "auth.creatingAccount": "Membuat akun…",
-  "auth.createAccount": "Buat akun",
 
   // 402 limit_reached, per `error.which`
   "limit.projects": "Anda sudah mencapai batas proyek paket Anda.",

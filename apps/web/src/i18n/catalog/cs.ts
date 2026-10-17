@@ -11,6 +11,9 @@ const cs: PartialCatalog = {
   "nav.signup": "Zaregistrovat se zdarma",
   "nav.dashboard": "Přehled",
   "nav.logout": "Odhlásit se",
+  "nav.profile": "Profil",
+  "auth.unverifiedBanner": "Potvrďte svou e-mailovou adresu ({email}), abyste mohli vytvářet projekty a API klíče.",
+  "auth.resendAt": "Ověřit nyní",
   "nav.openMenu": "Otevřít menu",
   "nav.closeMenu": "Zavřít menu",
   "nav.projects": "Projekty",
@@ -383,27 +386,8 @@ const cs: PartialCatalog = {
   "device.bot": "Bot",
 
   // Auth: login
-  "auth.loginTitle": "Přihlásit se",
-  "auth.loginSubtitle": "Vítejte zpět v metrics.",
-  "auth.loginFailed": "Přihlášení se nezdařilo. Zkontrolujte e-mail a heslo.",
-  "auth.loggingIn": "Přihlašování…",
-  "auth.noAccount": "Nemáte účet?",
-  "auth.signUp": "Zaregistrovat se",
 
   // Auth: signup
-  "auth.signupTitle": "Vytvořte si účet",
-  "auth.signupFailed": "Registrace se nezdařila. Zkuste to prosím znovu.",
-  "auth.inviteOnlyTitle": "🔒 Registrace je teď jen na pozvánku",
-  "auth.inviteOnlyBody": "Spouštíme postupně. Sledujte nás — místa se brzy otevřou.",
-  "auth.haveAccount": "Už máte účet?",
-  "auth.logIn": "Přihlásit se",
-  "auth.earlyAccessPitch": "Předběžný přístup: plný přístup zdarma. Bez karty.",
-  "auth.freePitch": "Navždy zdarma: {projects} projekty a {events} událostí / měsíc.",
-  "auth.workspaceName": "Název pracovního prostoru",
-  "auth.workspacePlaceholder": "Acme s.r.o.",
-  "auth.passwordHint": "Alespoň 8 znaků.",
-  "auth.creatingAccount": "Vytváření účtu…",
-  "auth.createAccount": "Vytvořit účet",
 
   // 402 limit_reached, per `error.which`
   "limit.projects": "Dosáhli jste limitu projektů svého tarifu.",

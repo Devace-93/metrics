@@ -39,8 +39,28 @@ Frontend tooling is **Bun**. Compose project name is `metrics`.
 
 ## Auth
 
-- Dashboard: JWT bearer, `Authorization: Bearer <access_token>`. Access TTL
-  ~30 min; refresh token (opaque, stored hashed) ~30 days.
+- **Identity lives in accounts.3m4.net** (shared by every 3m4 app; contract:
+  `accounts/CONTRACT.md`). Register, log in (password, magic link, Google /
+  GitHub / Microsoft / Discord), verify e-mail, profile, avatar and logout all
+  happen there. This app has no passwords and no refresh tokens.
+- Dashboard: the accounts session JWT (EdDSA) arrives in the `3m4_session`
+  cookie (`Domain=.3m4.net`, 15 min, refreshed by the browser against
+  `${ACCOUNTS_URL}/api/session/refresh`) or as `Authorization: Bearer <jwt>`.
+  The API verifies it locally with the JWKS at
+  `${ACCOUNTS_INTERNAL_URL}/.well-known/jwks.json` (issuer `ACCOUNTS_URL`,
+  audience `3m4`).
+- First request of an unknown `sub` ⇒ just-in-time provisioning: `users`
+  row (`identity_id` = `sub`, email / handle / name / avatar_url mirrored
+  from the claims and refreshed on every request) + `accounts` row
+  (`"{handle}'s workspace"`, plan free) + owner membership. Gated by the
+  `signups` switch (403 `signups_disabled`).
+- Errors: 401 `no_session` (nothing presented ⇒ the web app sends the visitor
+  to `${ACCOUNTS_URL}/login?return_to=`), 401 `session_expired` (client
+  refreshes once and retries), 401 `invalid_session`, 403 `email_unverified`
+  (every session route except `GET /auth/me`, which the dashboard uses to
+  render the "verify your e-mail" banner).
+- `/login` and `/signup` on the web app are 302 redirects to the accounts
+  pages with `return_to` set to the dashboard.
 - Management API: API keys, header `X-API-Key: metrics_live_…` (maps to an
   account). The MCP server also accepts the key as `Authorization: Bearer`.
 - Collect API: project **public keys**, header `X-Project-Key: metrics_pub_…`
@@ -119,11 +139,9 @@ Request bodies are capped at 64 KB (413).
 
 ### Auth
 
-- `POST /auth/register` `{email, password, account_name?}` → `{user, account, access_token, refresh_token}` (201). Gated by feature `signups`.
-- `POST /auth/login` `{email, password}` → `{user, account, access_token, refresh_token}`
-- `POST /auth/refresh` `{refresh_token}` → `{access_token}`
-- `POST /auth/logout` `{refresh_token}` → 204
-- `GET  /auth/me` → `{user, account, plan, limits, usage, counts:{projects}, features}`
+Register / login / refresh / logout live at accounts.3m4.net (see "Auth" above).
+
+- `GET /auth/me` → `{user, account, plan, limits, usage, counts:{projects}, features}` — accounts session (reachable while the e-mail is unverified). `user` = `{id, identity_id, email, email_verified, handle, name, avatar_url, created_at}`.
 
 ### Projects
 

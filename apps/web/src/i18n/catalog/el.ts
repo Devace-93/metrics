@@ -11,6 +11,9 @@ const el: PartialCatalog = {
   "nav.signup": "Δωρεάν εγγραφή",
   "nav.dashboard": "Πίνακας",
   "nav.logout": "Αποσύνδεση",
+  "nav.profile": "Προφίλ",
+  "auth.unverifiedBanner": "Επιβεβαιώστε τη διεύθυνση e-mail σας ({email}) για να δημιουργείτε έργα και κλειδιά API.",
+  "auth.resendAt": "Επαλήθευση τώρα",
   "nav.openMenu": "Άνοιγμα μενού",
   "nav.closeMenu": "Κλείσιμο μενού",
   "nav.projects": "Έργα",
@@ -330,27 +333,8 @@ const el: PartialCatalog = {
   "device.bot": "Bot",
 
   // Auth: login
-  "auth.loginTitle": "Σύνδεση",
-  "auth.loginSubtitle": "Καλώς ήρθες ξανά στο metrics.",
-  "auth.loginFailed": "Η σύνδεση απέτυχε. Έλεγξε το email και τον κωδικό σου.",
-  "auth.loggingIn": "Σύνδεση…",
-  "auth.noAccount": "Δεν έχεις λογαριασμό;",
-  "auth.signUp": "Εγγραφή",
 
   // Auth: signup
-  "auth.signupTitle": "Δημιούργησε τον λογαριασμό σου",
-  "auth.signupFailed": "Η εγγραφή απέτυχε. Δοκίμασε ξανά.",
-  "auth.inviteOnlyTitle": "🔒 Οι εγγραφές γίνονται μόνο με πρόσκληση προς το παρόν",
-  "auth.inviteOnlyBody": "Ανοίγουμε σταδιακά. Μείνε συντονισμένος — θέσεις ανοίγουν σύντομα.",
-  "auth.haveAccount": "Έχεις ήδη λογαριασμό;",
-  "auth.logIn": "Σύνδεση",
-  "auth.earlyAccessPitch": "Πρώιμη πρόσβαση: πλήρης πρόσβαση, δωρεάν. Χωρίς κάρτα.",
-  "auth.freePitch": "Δωρεάν για πάντα: {projects} έργα & {events} συμβάντα / μήνα.",
-  "auth.workspaceName": "Όνομα χώρου εργασίας",
-  "auth.workspacePlaceholder": "Acme ΑΕ",
-  "auth.passwordHint": "Τουλάχιστον 8 χαρακτήρες.",
-  "auth.creatingAccount": "Δημιουργία λογαριασμού…",
-  "auth.createAccount": "Δημιουργία λογαριασμού",
 
   // 402 limit_reached, per `error.which`
   "limit.projects": "Έφτασες το όριο έργων του πλάνου σου.",

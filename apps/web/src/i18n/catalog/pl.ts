@@ -11,6 +11,9 @@ const pl: PartialCatalog = {
   "nav.signup": "Zarejestruj się za darmo",
   "nav.dashboard": "Panel",
   "nav.logout": "Wyloguj się",
+  "nav.profile": "Profil",
+  "auth.unverifiedBanner": "Potwierdź swój adres e-mail ({email}), aby tworzyć projekty i klucze API.",
+  "auth.resendAt": "Zweryfikuj teraz",
   "nav.openMenu": "Otwórz menu",
   "nav.closeMenu": "Zamknij menu",
   "nav.projects": "Projekty",
@@ -387,27 +390,8 @@ const pl: PartialCatalog = {
   "device.bot": "Bot",
 
   // Auth: login
-  "auth.loginTitle": "Zaloguj się",
-  "auth.loginSubtitle": "Witaj ponownie w metrics.",
-  "auth.loginFailed": "Logowanie nie powiodło się. Sprawdź e-mail i hasło.",
-  "auth.loggingIn": "Logowanie…",
-  "auth.noAccount": "Nie masz konta?",
-  "auth.signUp": "Zarejestruj się",
 
   // Auth: signup
-  "auth.signupTitle": "Utwórz konto",
-  "auth.signupFailed": "Rejestracja nie powiodła się. Spróbuj ponownie.",
-  "auth.inviteOnlyTitle": "🔒 Rejestracja jest obecnie tylko na zaproszenie",
-  "auth.inviteOnlyBody": "Wdrażamy stopniowo. Bądź na bieżąco — miejsca otworzą się wkrótce.",
-  "auth.haveAccount": "Masz już konto?",
-  "auth.logIn": "Zaloguj się",
-  "auth.earlyAccessPitch": "Wczesny dostęp: pełny dostęp, za darmo. Bez karty.",
-  "auth.freePitch": "Za darmo na zawsze: {projects} projektów i {events} zdarzeń / miesiąc.",
-  "auth.workspaceName": "Nazwa przestrzeni roboczej",
-  "auth.workspacePlaceholder": "Acme Sp. z o.o.",
-  "auth.passwordHint": "Co najmniej 8 znaków.",
-  "auth.creatingAccount": "Tworzenie konta…",
-  "auth.createAccount": "Utwórz konto",
 
   // 402 limit_reached, per `error.which`
   "limit.projects": "Osiągnięto limit projektów w Twoim planie.",
