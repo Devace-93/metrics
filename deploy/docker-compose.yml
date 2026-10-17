@@ -67,6 +67,9 @@ services:
         VITE_INFO_URL: ${VITE_INFO_URL:-https://info.3m4.net}
         VITE_METRICS_PROJECT_KEY: ${VITE_METRICS_PROJECT_KEY:-}
         VITE_METRICS_TRACKER_URL: ${VITE_METRICS_TRACKER_URL:-https://metrics.3m4.net/m.js}
+        VITE_OOPS_PROJECT_KEY: ${VITE_OOPS_PROJECT_KEY:-}
+        VITE_OOPS_SDK_URL: ${VITE_OOPS_SDK_URL:-https://oops.3m4.net/o.js}
+        VITE_OOPS_ENV: ${VITE_OOPS_ENV:-production}
     env_file: ../.env
     environment:
       # SSR resolves metrics' feature switches straight from the API over the internal network.
