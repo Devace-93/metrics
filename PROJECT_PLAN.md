@@ -16,7 +16,7 @@ without cookies and without storing anyone's IP address.
 | Stack | Same as 3m4 / exp / retro: Flask API + PostgreSQL + Redis, Qwik City frontend (Bun), MCP server (TS), Caddy, Docker |
 | Domain | `metrics.3m4.net`, single host: web + `/api` + `/mcp` + `/m.js` |
 | Brand | Tailwind **cyan** |
-| Auth | Roll-your-own JWT + refresh tokens; management API keys `metrics_live_…` with roles; per-project **public keys** `metrics_pub_…` for the collect API, the tracker and the pixel |
+| Auth | Identity at **accounts.3m4.net** (one login for every 3m4 app; `3m4_session` cookie verified against its JWKS, users provisioned just-in-time); management API keys `metrics_live_…` with roles; per-project **public keys** `metrics_pub_…` for the collect API, the tracker and the pixel |
 | Tenancy | Account is the billing unit; users join via memberships |
 | Model | account → projects → events (one row per hit, aggregated on the fly with indexed GROUP BY; no roll-ups yet) |
 | Integration surfaces | (1) `/m.js` tracker (SPA-aware, `metrics.track()`, `data-metrics-event`), (2) `/api/collect/pixel.gif`, (3) `POST /api/collect` (CORS `*`, `text/plain` bodies), (4) management API + MCP server for reading stats |

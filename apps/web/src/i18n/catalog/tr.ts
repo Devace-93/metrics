@@ -11,6 +11,9 @@ const tr: PartialCatalog = {
   "nav.signup": "Ücretsiz kaydol",
   "nav.dashboard": "Panel",
   "nav.logout": "Çıkış yap",
+  "nav.profile": "Profil",
+  "auth.unverifiedBanner": "Proje ve API anahtarı oluşturmak için e-posta adresinizi ({email}) doğrulayın.",
+  "auth.resendAt": "Şimdi doğrula",
   "nav.openMenu": "Menüyü aç",
   "nav.closeMenu": "Menüyü kapat",
   "nav.projects": "Projeler",
@@ -330,27 +333,8 @@ const tr: PartialCatalog = {
   "device.bot": "Bot",
 
   // Auth: login
-  "auth.loginTitle": "Giriş yap",
-  "auth.loginSubtitle": "metrics'e tekrar hoş geldiniz.",
-  "auth.loginFailed": "Giriş başarısız. E-postanızı ve parolanızı kontrol edin.",
-  "auth.loggingIn": "Giriş yapılıyor…",
-  "auth.noAccount": "Hesabınız yok mu?",
-  "auth.signUp": "Kaydol",
 
   // Auth: signup
-  "auth.signupTitle": "Hesabınızı oluşturun",
-  "auth.signupFailed": "Kayıt başarısız. Lütfen tekrar deneyin.",
-  "auth.inviteOnlyTitle": "🔒 Kayıtlar şu an yalnızca davetle",
-  "auth.inviteOnlyBody": "Kademeli olarak açıyoruz. Takipte kalın — yerler yakında açılacak.",
-  "auth.haveAccount": "Zaten hesabınız var mı?",
-  "auth.logIn": "Giriş yap",
-  "auth.earlyAccessPitch": "Erken erişim: tam erişim, ücretsiz. Kart gerekmez.",
-  "auth.freePitch": "Sonsuza dek ücretsiz: {projects} proje ve ayda {events} olay.",
-  "auth.workspaceName": "Çalışma alanı adı",
-  "auth.workspacePlaceholder": "Acme A.Ş.",
-  "auth.passwordHint": "En az 8 karakter.",
-  "auth.creatingAccount": "Hesap oluşturuluyor…",
-  "auth.createAccount": "Hesap oluştur",
 
   // 402 limit_reached, per `error.which`
   "limit.projects": "Planınızın proje sınırına ulaştınız.",

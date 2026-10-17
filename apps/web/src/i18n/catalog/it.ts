@@ -11,6 +11,9 @@ const it: PartialCatalog = {
   "nav.signup": "Registrati gratis",
   "nav.dashboard": "Dashboard",
   "nav.logout": "Esci",
+  "nav.profile": "Profilo",
+  "auth.unverifiedBanner": "Conferma il tuo indirizzo e-mail ({email}) per creare progetti e chiavi API.",
+  "auth.resendAt": "Verifica ora",
   "nav.openMenu": "Apri menu",
   "nav.closeMenu": "Chiudi menu",
   "nav.projects": "Progetti",
@@ -354,27 +357,8 @@ const it: PartialCatalog = {
   "device.bot": "Bot",
 
   // Auth: login
-  "auth.loginTitle": "Accedi",
-  "auth.loginSubtitle": "Bentornato su metrics.",
-  "auth.loginFailed": "Accesso non riuscito. Controlla email e password.",
-  "auth.loggingIn": "Accesso in corso…",
-  "auth.noAccount": "Non hai un account?",
-  "auth.signUp": "Registrati",
 
   // Auth: signup
-  "auth.signupTitle": "Crea il tuo account",
-  "auth.signupFailed": "Registrazione non riuscita. Riprova.",
-  "auth.inviteOnlyTitle": "🔒 Al momento le registrazioni sono solo su invito",
-  "auth.inviteOnlyBody": "Stiamo aprendo gradualmente. Resta aggiornato: presto si apriranno nuovi posti.",
-  "auth.haveAccount": "Hai già un account?",
-  "auth.logIn": "Accedi",
-  "auth.earlyAccessPitch": "Accesso anticipato: accesso completo, gratis. Nessuna carta richiesta.",
-  "auth.freePitch": "Gratis per sempre: {projects} progetti e {events} eventi / mese.",
-  "auth.workspaceName": "Nome del workspace",
-  "auth.workspacePlaceholder": "Acme Inc.",
-  "auth.passwordHint": "Almeno 8 caratteri.",
-  "auth.creatingAccount": "Creazione account…",
-  "auth.createAccount": "Crea account",
 
   // 402 limit_reached, per `error.which`
   "limit.projects": "Hai raggiunto il limite di progetti del tuo piano.",

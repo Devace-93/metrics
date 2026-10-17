@@ -70,7 +70,7 @@ test.describe("tracker", () => {
     // On localhost the script installs the facade but sends nothing.
     const account = await registerAccount(request);
     const project = await createProject(request, account);
-    await page.goto(`/signup`); // the app itself, on localhost
+    await page.goto(`/`); // the app itself, on localhost (/signup now redirects to accounts)
     await page.evaluate(
       async ([src, key, api]) => {
         await new Promise<void>((resolve) => {
