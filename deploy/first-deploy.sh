@@ -27,11 +27,16 @@ if [ ! -f .env ]; then
   PG_PASS=$(secret 24)
   set_var POSTGRES_PASSWORD "$PG_PASS"
   set_var DATABASE_URL "postgresql+psycopg://metrics:$PG_PASS@postgres:5432/metrics"
-  set_var JWT_SECRET_KEY "$(secret 48)"
   set_var IP_HASH_SECRET "$(secret 32)"
   set_var REVENUECAT_WEBHOOK_AUTH_TOKEN "$(secret 32)"
   set_var APP_BASE_URL https://metrics.3m4.net
   set_var DASHBOARD_URL https://metrics.3m4.net
+  # Shared identity (accounts.3m4.net): issuer, in-cluster JWKS, public URL for the web bundle,
+  # and the forwarded-proto header so SSR redirects are https.
+  set_var ACCOUNTS_URL https://accounts.3m4.net
+  set_var ACCOUNTS_INTERNAL_URL http://accounts-api-1:5000
+  set_var VITE_ACCOUNTS_URL https://accounts.3m4.net
+  set_var PROTOCOL_HEADER x-forwarded-proto
   # Billing stays off until metrics has its own RevenueCat products; early access hides it anyway.
   set_var BILLING_ENABLED false
   set_var VITE_BILLING_ENABLED false

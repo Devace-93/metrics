@@ -13,7 +13,7 @@ services/api/
 ├── api/
 │   ├── app.py              # create_app() factory + error handlers + health
 │   ├── extensions.py       # Flask-Limiter (Redis-backed); per-key, per-project and per-IP buckets
-│   ├── auth_utils.py       # passwords, JWT, @require_auth / @require_api_key / @require_project_key, @require_scope
+│   ├── auth_utils.py       # accounts session verify + JIT provisioning, @require_auth / @require_api_key / @require_project_key, @require_scope
 │   ├── features.py         # metrics's own switches: @require_feature + GET /api/features
 │   ├── serializers.py      # ORM -> JSON (CONTRACT.md shapes)
 │   ├── errors.py           # ApiError -> {"error": {...}}
@@ -29,8 +29,10 @@ repo-root `dbcore/` package and is imported, never re-implemented.
 
 ## Auth
 
-- **Dashboard:** `Authorization: Bearer <JWT>` (HS256, TTL `ACCESS_TOKEN_TTL_MIN`).
-  Refresh tokens are opaque and stored **hashed** (sha256). Passwords: argon2.
+- **Dashboard:** the accounts.3m4.net session — the `3m4_session` cookie (or
+  the same EdDSA JWT as a bearer), verified locally against the accounts JWKS
+  (`dbcore/m4session.py`, vendored). First sight of an identity provisions the
+  local user + workspace. No passwords, no refresh tokens in this service.
 - **Management API:** `X-API-Key: metrics_live_...` (or as a bearer token); the
   key's role decides its scopes (`packages/shared/api_key_roles.json`).
 - **Collect API:** `X-Project-Key: metrics_pub_...` (or bearer token, or the
@@ -39,7 +41,7 @@ repo-root `dbcore/` package and is imported, never re-implemented.
 
 ## Endpoints (all under `/api`)
 
-- `auth`: `register`, `login`, `refresh`, `logout`, `me`
+- `auth`: `me` (identity itself lives at accounts.3m4.net)
 - `projects`: list/create/get/patch/delete, `:id/rotate-key`, `:id/summary`, `DELETE :id/events` (purge)
 - `projects/:id/stats`, `stats/breakdown`, `stats/series`, `events`, `live` (stats:read)
 - `collect` (POST, metered, project public key, CORS `*`), `collect/pixel.gif`

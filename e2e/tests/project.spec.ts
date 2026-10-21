@@ -51,16 +51,25 @@ test.describe("projects", () => {
     expect(project.counts.pageviews_30d).toBe(3);
   });
 
-  test("a project of another account is a 404, never a 403", async ({ request }) => {
+  test("a project of another account is a 404, never a 403", async ({ request, browser }) => {
+    // Two identities need two cookie jars: the API reads the `3m4_session`
+    // cookie before any bearer header, so a shared jar would always act as
+    // whoever signed up last.
     const owner = await registerAccount(request);
-    const other = await registerAccount(request);
     const created = await request.post(`${API_URL}/projects`, { headers: jwtHeaders(owner), data: { name: uniqueName() } });
     expect(created.status()).toBe(201);
     const { id } = await created.json();
-    const res = await request.get(`${API_URL}/projects/${id}`, { headers: jwtHeaders(other) });
-    expect(res.status()).toBe(404);
-    const st = await request.get(`${API_URL}/projects/${id}/stats`, { headers: jwtHeaders(other) });
-    expect(st.status()).toBe(404);
+
+    const otherCtx = await browser.newContext();
+    try {
+      await registerAccount(otherCtx.request);
+      const res = await otherCtx.request.get(`${API_URL}/projects/${id}`);
+      expect(res.status()).toBe(404);
+      const st = await otherCtx.request.get(`${API_URL}/projects/${id}/stats`);
+      expect(st.status()).toBe(404);
+    } finally {
+      await otherCtx.close();
+    }
   });
 
   test("API keys: viewer can read stats but not change the project; events page lists hits", async ({ page, request }) => {

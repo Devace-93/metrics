@@ -7,7 +7,7 @@ chrome, toolchain and code style as the sibling
 [3m4](https://github.com/Devace-93/3m4) app; brand colour is Tailwind cyan.
 
 - Marketing: `/`, `/info` (+ `/info/pricing`, `/info/docs`), `/blog/*`, `/sponsors`.
-- Auth: `/login`, `/signup` (hidden while the `signups` feature is off).
+- Auth: `/login`, `/signup` are 302 redirects to accounts.3m4.net (one identity for every 3m4 app); the dashboard reads the `3m4_session` cookie through `lib/auth.ts`. The sign-up button hides while the `signups` feature is off.
 - Dashboard: `/dashboard` (projects with 30-day counts and usage),
   `/dashboard/projects/[id]` (overview: filter row, KPI tiles, column chart,
   click-to-filter breakdowns, live counter), `/dashboard/projects/[id]/events`
