@@ -28,7 +28,6 @@ if [ ! -f .env ]; then
   set_var POSTGRES_PASSWORD "$PG_PASS"
   set_var DATABASE_URL "postgresql+psycopg://metrics:$PG_PASS@postgres:5432/metrics"
   set_var IP_HASH_SECRET "$(secret 32)"
-  set_var REVENUECAT_WEBHOOK_AUTH_TOKEN "$(secret 32)"
   set_var APP_BASE_URL https://metrics.3m4.net
   set_var DASHBOARD_URL https://metrics.3m4.net
   # Shared identity (accounts.3m4.net): issuer, in-cluster JWKS, public URL for the web bundle,
@@ -37,7 +36,14 @@ if [ ! -f .env ]; then
   set_var ACCOUNTS_INTERNAL_URL http://accounts-api-1:5000
   set_var VITE_ACCOUNTS_URL https://accounts.3m4.net
   set_var PROTOCOL_HEADER x-forwarded-proto
-  # Billing stays off until metrics has its own RevenueCat products; early access hides it anyway.
+  # Billing through payments.3m4.net (public portal URL + in-cluster api). The
+  # service key and webhook secret come from `make app-key SLUG=metrics …` in
+  # /opt/payments (see PRODUCTION.md "Billing"); until they are set the
+  # webhook rejects everything and the reconcile is skipped. Early access
+  # hides the billing page anyway.
+  set_var PAYMENTS_URL https://payments.3m4.net
+  set_var PAYMENTS_INTERNAL_URL http://payments-api-1:5000
+  set_var VITE_PAYMENTS_URL https://payments.3m4.net
   set_var BILLING_ENABLED false
   set_var VITE_BILLING_ENABLED false
   set_var VITE_API_URL /api

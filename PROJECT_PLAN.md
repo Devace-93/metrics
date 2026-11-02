@@ -42,7 +42,7 @@ without cookies and without storing anyone's IP address.
   weekly report, public shareable dashboards (`/s/<slug>`), CSV export, more
   dimensions (screen class, entry/exit pages), Cloudflare-style country header
   support for hosts behind a CDN.
-- **Phase 3:** billing on (RevenueCat), team members and invitations,
+- **Phase 3:** billing on (payments.3m4.net portal), team members and invitations,
   dogfooding (metrics on every 3m4 app, including metrics itself).
 
 ## 3. Open questions

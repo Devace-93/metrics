@@ -10,5 +10,9 @@ export const onGet: RequestHandler = ({ redirect, url, env }) => {
   const requested = url.searchParams.get("return_to") || "";
   // Only our own origin may be a return target; anything else goes to the dashboard.
   const back = requested.startsWith(url.origin) ? requested : `${url.origin}/dashboard`;
-  throw redirect(302, `${accounts}/signup?return_to=${encodeURIComponent(back)}`);
+  // Language continuity: `?lang=` (the app's `3m4.lang`) is forwarded so the
+  // hosted page opens in the same language; accounts ignores unknown values.
+  const lang = url.searchParams.get("lang") || "";
+  const langParam = /^[a-z]{2}(-[A-Z]{2})?$/.test(lang) ? `&lang=${encodeURIComponent(lang)}` : "";
+  throw redirect(302, `${accounts}/signup?return_to=${encodeURIComponent(back)}${langParam}`);
 };

@@ -12,7 +12,5 @@ const esES: PartialCatalog = {
   "dash.usageEventsHint": "Vistas de página + eventos personalizados recibidos este mes natural.",
   "psettings.installBody": "Añade el script a tu layout, pon un pixel donde no se ejecute JavaScript o envía un POST a la API de recolección desde tu backend.",
   "psettings.snippetPixelHint": "Para correos y READMEs. u es la página o cosa que quieres contar; añade n=open para un evento con nombre. Detalles:",
-  "billing.notConfigured":
-    "La facturación todavía no está configurada (falta VITE_REVENUECAT_PUBLIC_KEY). Añade tu clave pública de RevenueCat Web Billing a .env y vuelve a construir la imagen web.",
 };
 export default esES;

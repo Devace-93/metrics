@@ -32,14 +32,16 @@ the MCP server. MIT.
 - **Your site never sees an error.** Hits over the monthly budget are counted
   and dropped with a 202; only creating new projects is blocked.
 - **Self-host friendly.** Plain Docker, Postgres as the single store (raw
-  events, aggregated on the fly), optional GeoLite2 file, no billing provider.
+  events, aggregated on the fly), optional GeoLite2 file, no billing provider
+  (hosted edition: billing lives at the payments.3m4.net portal).
 
 ## Architecture
 
 ```
 Caddy (reverse proxy)
  ├─ web   Qwik City (Bun)  landing + /info + /blog + dashboard + /m.js
- ├─ api   Flask            auth, projects, collect + pixel, stats, keys, audit, billing webhooks
+ ├─ api   Flask            auth, projects, collect + pixel, stats, keys, audit, billing status + webhook
+ ├─ worker Python           daily billing reconcile with payments.3m4.net
  └─ mcp   Node (MCP)       AI-agent access: tools over the API, RBAC, confirmations, audit
       Postgres (events + everything else) · Redis (rate limits) · GeoLite2 (optional)
 ```
@@ -159,6 +161,8 @@ _Coming with the first release: overview, events log, settings._
 | `make logs` | tail all logs |
 | `make migrate` | create tables + apply Alembic migrations |
 | `make prune` | delete events older than each plan's retention window |
+| `make reconcile-billing` | pull the last 2 days of subscriptions from payments.3m4.net once |
+| `make test` | run the API pytest suite against a throwaway Postgres |
 | `make tracker` | rebuild the tracker bundle into `apps/web/public` |
 | `make geoip` | copy the shortener's local GeoLite2 database (dev) |
 | `make smoke` | curl health, tracker headers and a collect → stats round-trip |

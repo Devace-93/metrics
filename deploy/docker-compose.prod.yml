@@ -20,6 +20,8 @@ services:
       - /opt/3m4/deploy/geoip:/geoip:ro
   web:
     networks: [default, edge]
+  worker:
+    networks: [default, edge]
   mcp:
     networks: [default, edge]
 
