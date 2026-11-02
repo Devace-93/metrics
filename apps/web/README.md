@@ -54,6 +54,8 @@ library: the page must stay light and SSR-safe.
 ## Environment (build-time, `VITE_*`)
 
 See the repo `.env.example`: `VITE_API_URL`, `VITE_APP_URL`, `VITE_POSTHOG_KEY`,
-`VITE_POSTHOG_HOST`, `VITE_REVENUECAT_PUBLIC_KEY`, `VITE_BILLING_ENABLED`,
+`VITE_POSTHOG_HOST`, `VITE_PAYMENTS_URL` (payments portal: Upgrade / Manage /
+Donate open its hosted pages, `pay.js` is loaded from it), `VITE_BILLING_ENABLED`,
 `VITE_INFO_URL`. At runtime the SSR server reads `API_INTERNAL_URL` to resolve
-features before the first paint.
+features before the first paint and `PAYMENTS_INTERNAL_URL` (compose:
+`http://payments-api-1:5000`) to feed the `/sponsors` supporters list.

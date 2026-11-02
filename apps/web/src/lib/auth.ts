@@ -5,7 +5,13 @@
  * cookie on `.3m4.net` (host-only on localhost), this app's API verifies it,
  * and this module only asks accounts who the visitor is and where its hosted
  * pages live. Import-safe during SSR (nothing touches `window` at load).
+ *
+ * Language continuity: every hosted-page URL carries the app's saved locale
+ * (`localStorage["3m4.lang"]`, the key shared by all 3m4 apps) as `?lang=`,
+ * so accounts opens in the language the visitor chose here. On the server
+ * there is no storage and the parameter is simply omitted.
  */
+import { LANG_STORAGE_KEY } from "../i18n/langs";
 import { createSessionClient, type SessionUser } from "./m4session";
 
 export const ACCOUNTS_URL = (import.meta.env.VITE_ACCOUNTS_URL || "http://localhost:8085").replace(/\/$/, "");
@@ -14,16 +20,30 @@ export const session = createSessionClient(ACCOUNTS_URL);
 
 export type { SessionUser };
 
+/** The visitor's saved locale (`3m4.lang`), or `undefined` when unset / on the server. */
+export function currentLang(): string | undefined {
+  try {
+    return localStorage.getItem(LANG_STORAGE_KEY) || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 /** Current identity or `null` when signed out (cached ~30 s). */
 export const getSession = (force = false): Promise<SessionUser | null> => session.getSession(force);
 
 /** Hosted pages; `returnTo` defaults to the current page. */
-export const loginUrl = (returnTo?: string): string => session.loginUrl(returnTo);
-export const signupUrl = (returnTo?: string): string => session.signupUrl(returnTo);
-export const profileUrl = (): string => session.profileUrl();
+export const loginUrl = (returnTo?: string): string => session.loginUrl(returnTo, currentLang());
+export const signupUrl = (returnTo?: string): string => session.signupUrl(returnTo, currentLang());
+export const profileUrl = (): string => session.profileUrl(currentLang());
 /** Where an unverified user confirms the e-mail (shows the resend button). */
-export const verifyUrl = (returnTo?: string): string =>
-  `${ACCOUNTS_URL}/verify?return_to=${encodeURIComponent(returnTo ?? (typeof location !== "undefined" ? location.href : "/"))}`;
+export const verifyUrl = (returnTo?: string): string => {
+  const lang = currentLang();
+  return (
+    `${ACCOUNTS_URL}/verify?return_to=${encodeURIComponent(returnTo ?? (typeof location !== "undefined" ? location.href : "/"))}` +
+    (lang ? `&lang=${encodeURIComponent(lang)}` : "")
+  );
+};
 
 /** Revoke the session at accounts (every app at once). */
 export const logout = (): Promise<void> => session.logout();

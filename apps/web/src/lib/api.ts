@@ -18,6 +18,7 @@ import type {
   ApiKey,
   ApiKeyRole,
   AuditEvent,
+  BillingStatus,
   Breakdown,
   Dimension,
   EventKind,
@@ -185,8 +186,8 @@ export const api = {
 
   deleteApiKey: (id: string) => apiFetch<void>(`/apikeys/${enc(id)}`, { method: "DELETE" }),
 
-  /* ─── Billing ────────────────────────────────────────────────────────── */
-  billingOfferings: () => apiFetch<unknown>("/billing/offerings"),
+  /* ─── Billing (plan + subscription mirrored from payments.3m4.net) ───── */
+  billingStatus: () => apiFetch<BillingStatus>("/billing/status"),
 };
 
 /** Public base URL of the API, for docs snippets (e.g. curl examples). */

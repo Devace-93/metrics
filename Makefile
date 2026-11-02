@@ -9,7 +9,7 @@ COMPOSE      := docker compose --env-file .env -f deploy/docker-compose.yml
 COMPOSE_SH   := docker compose --env-file .env -f deploy/docker-compose.yml -f deploy/docker-compose.selfhost.yml
 BASE_URL     ?= http://localhost:8083
 
-.PHONY: help up up-selfhost down build rebuild logs ps migrate prune shell-api shell-db clean e2e tracker smoke geoip
+.PHONY: help up up-selfhost down build rebuild logs worker-logs ps migrate prune reconcile-billing shell-api shell-db clean e2e tracker smoke geoip test
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
@@ -33,6 +33,9 @@ rebuild: ## Rebuild from scratch (no cache)
 logs: ## Tail logs from all services
 	$(COMPOSE) logs -f --tail=100
 
+worker-logs: ## Tail the billing worker (daily reconcile with payments.3m4.net)
+	$(COMPOSE) logs -f --tail=100 worker
+
 ps: ## Show service status
 	$(COMPOSE) ps
 
@@ -41,6 +44,12 @@ migrate: ## Run create-all + alembic upgrade
 
 prune: ## Delete events older than each plan's retention window
 	$(COMPOSE) run --rm migrate python -m dbcore.cli prune-events
+
+reconcile-billing: ## Pull the last 2 days of subscriptions from payments.3m4.net once (worker --reconcile)
+	$(COMPOSE) run --rm worker python -m dbcore.worker --reconcile
+
+test: ## Run the API pytest suite against a disposable Postgres (no stack needed)
+	sh deploy/test.sh
 
 shell-api: ## Shell into the api container
 	$(COMPOSE) exec api sh

@@ -3,7 +3,7 @@
 JSON REST API for metrics, the web-analytics service. Auth, projects (one per
 tracked site) with their public keys, the public collect API (tracker / pixel /
 curl), the stats endpoints, account usage, API keys, and (optionally)
-RevenueCat billing. Mounted at `/api` behind Caddy.
+billing through the payments.3m4.net portal. Mounted at `/api` behind Caddy.
 The spec is the repo-root `CONTRACT.md`.
 
 ## Layout
@@ -48,7 +48,7 @@ repo-root `dbcore/` package and is imported, never re-implemented.
 - `account/usage`, `account/audit`
 - `apikeys`: list/create/delete, `roles`, `me`
 - `features`
-- `billing` (only if `BILLING_ENABLED=true`): `offerings`, `webhook`
+- `billing` (only if `BILLING_ENABLED=true`): `status` (session), `webhook` (signed push events from payments.3m4.net)
 - `healthz` (also at the bare path for container health checks)
 
 ## Run
