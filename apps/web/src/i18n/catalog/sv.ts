@@ -264,6 +264,7 @@ const sv: PartialCatalog = {
   "sponsors.tierPro": "Pro-supporter",
   "sponsors.tierTeam": "Team-supporter",
   "sponsors.tierDonor": "Supporter",
+  "sponsors.viaGithub": "GitHub Sponsors",
   "sponsors.since": "sedan {date}",
   "sponsors.donateIntro": "Hellre en engångsgåva? Bjud mig på en kaffe – givare som vill syns också här.",
 
